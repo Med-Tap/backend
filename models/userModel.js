@@ -8,7 +8,9 @@ const userSchema = new mongoose.Schema({
   userEmail: { type: String, required: true, unique: true },
   userHashedPassword: { type: String, required: true },
   role : {type : String, required: true},
-  ssoSessionToken : {type : String, required: false}
+  ssoSessionToken : {type : String, required: false},
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
 });
 
 const UserModel = mongoose.model('User',userSchema);
