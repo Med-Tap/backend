@@ -4,6 +4,9 @@ const cors = require("cors");
 const app = express();
 const MONGODB_URI =
   "mongodb+srv://tirthofficials:tsQzsG7z9M39ewtq@cluster0.iph3z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 // Connect to MongoDB
 mongoose
