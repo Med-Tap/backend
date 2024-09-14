@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const emergencySchema = new mongoose.Schema({
   _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
   userName: { type: String, required: true },
-  userID: { type: String, required: true },
   userEmail: { type: String, required: true },
   userPhone: { type: String, required: true },
   relationship: {
@@ -23,6 +22,12 @@ const emergencySchema = new mongoose.Schema({
     required: true,
   },
 });
+
+//Ensures { person: 1, userName: 1, userEmail: 1, userPhone} must be unique
+emergencySchema.index(
+  { person: 1, userName: 1, userEmail: 1, userPhone},
+  { unique: true }
+);
 
 // Create and export the model
 const EmergencyModel = mongoose.model("Emergency", emergencySchema);

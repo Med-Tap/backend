@@ -11,7 +11,9 @@ const immunizationSchema = new mongoose.Schema({
   person: { type: mongoose.Schema.Types.ObjectId, ref: 'Personal', required: true } 
 });
 
+// Ensures (person, vaccineName, dateAdministered) is unique
+immunizationSchema.index({ person: 1, vaccineName: 1, dateAdministered: 1 }, { unique: true });
+
 // Create and export the model
 const ImmunizationModel = mongoose.model("Immunization", immunizationSchema);
-
 module.exports = ImmunizationModel;
