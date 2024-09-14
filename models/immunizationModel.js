@@ -12,7 +12,7 @@ const immunizationSchema = new mongoose.Schema({
 });
 
 // Ensures (person, vaccineName, dateAdministered) is unique
-immunizationSchema.index({ person: 1, vaccineName: 1, dateAdministered: 1 }, { unique: true });
+immunizationSchema.index({ person: 1, vaccineName: 1, doseNumber: 1 }, { unique: true });
 
 // Create and export the model
 const ImmunizationModel = mongoose.model("Immunization", immunizationSchema);

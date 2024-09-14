@@ -25,7 +25,7 @@ const emergencySchema = new mongoose.Schema({
 
 //Ensures { person: 1, userName: 1, userEmail: 1, userPhone} must be unique
 emergencySchema.index(
-  { person: 1, userName: 1, userEmail: 1, userPhone},
+  { person: 1, userName: 1, userEmail: 1, userPhone: 1 },
   { unique: true }
 );
 
