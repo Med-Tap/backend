@@ -7,19 +7,10 @@ router.post("/personal", async (req, res) => {
   try {
     const newPerson = new PersonalModel(req.body);
     const savedPerson = await newPerson.save();
+    console.log(savedPerson)
     res.status(201).json(savedPerson);
   } catch (err) {
     res.status(400).json({ message: err.message });
-  }
-});
-
-// Retrieve all personal records
-router.get("/personal", async (req, res) => {
-  try {
-    const people = await PersonalModel.find({});
-    res.status(200).json(people);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
 });
 
