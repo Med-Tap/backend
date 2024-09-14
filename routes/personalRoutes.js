@@ -6,7 +6,7 @@ const ImmunizationModel = require("../models/immunizationModel");
 const AllergyModel = require("../models/allergyModel");
 const EmergencyModel = require("../models/emergencyModel");
 // Create a new personal record
-router.post("/personal", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const newPerson = new PersonalModel(req.body);
     newPerson.hashID = generateHashId(newPerson.userName, newPerson.userEmail);
@@ -18,7 +18,7 @@ router.post("/personal", async (req, res) => {
 });
 
 // Retrieve a single personal record by ID
-router.get("/personal/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const person = await PersonalModel.findById(req.params.id);
     if (!person) return res.status(404).json({ message: "Person not found" });
@@ -29,7 +29,7 @@ router.get("/personal/:id", async (req, res) => {
 });
 
 // Update a personal record by ID
-router.put("/personal/:id", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   try {
     const updatedPerson = await PersonalModel.findByIdAndUpdate(
       req.params.id,
@@ -45,7 +45,7 @@ router.put("/personal/:id", async (req, res) => {
 });
 
 // Delete a personal record by ID
-router.delete("/personal/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     const deletedPerson = await PersonalModel.findByIdAndDelete(req.params.id);
     if (!deletedPerson)

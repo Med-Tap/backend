@@ -3,7 +3,7 @@ const router = express.Router();
 const EmergencyModel = require("../models/emergencyModel"); // Adjust the path as needed
 
 // Create a new emergency record
-router.post("/emergency", async (req, res) => {
+router.post("/create-emergency-contact", async (req, res) => {
   try {
     const newEmergency = new EmergencyModel(req.body);
     const savedEmergency = await newEmergency.save();
@@ -14,7 +14,7 @@ router.post("/emergency", async (req, res) => {
 });
 
 // Retrieve all emergency records
-router.get("/emergency", async (req, res) => {
+router.get("/get-all-emergency-contacts", async (req, res) => {
   try {
     const emergencies = await EmergencyModel.find({}).populate(
       "person",
@@ -27,7 +27,7 @@ router.get("/emergency", async (req, res) => {
 });
 
 // Retrieve a single emergency record by ID
-router.get("/emergency/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const emergency = await EmergencyModel.findById(req.params.id).populate(
       "person",
@@ -42,7 +42,7 @@ router.get("/emergency/:id", async (req, res) => {
 });
 
 // Update an emergency record by ID
-router.put("/emergency/:id", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   try {
     const updatedEmergency = await EmergencyModel.findByIdAndUpdate(
       req.params.id,
@@ -58,7 +58,7 @@ router.put("/emergency/:id", async (req, res) => {
 });
 
 // Delete an emergency record by ID
-router.delete("/emergency/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     const deletedEmergency = await EmergencyModel.findByIdAndDelete(
       req.params.id

@@ -3,7 +3,7 @@ const router = express.Router();
 const ImmunizationModel = require("../models/immunizationModel"); // Adjust the path as needed
 
 // Create a new immunization record
-router.post("/immunization", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     console.log(req)
     const newImmunization = new ImmunizationModel(req.body);
@@ -16,7 +16,7 @@ router.post("/immunization", async (req, res) => {
 });
 
 // Retrieve all immunization records
-router.get("/immunization", async (req, res) => {
+router.get("/get-all-immunization", async (req, res) => {
   try {
     const immunizations = await ImmunizationModel.find({}).populate(
       "person",
@@ -29,7 +29,7 @@ router.get("/immunization", async (req, res) => {
 });
 
 // Retrieve a single immunization record by ID
-router.get("/immunization/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const immunization = await ImmunizationModel.findById(
       req.params.id
@@ -43,7 +43,7 @@ router.get("/immunization/:id", async (req, res) => {
 });
 
 // Update an immunization record by ID
-router.put("/immunization/:id", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   try {
     const updatedImmunization = await ImmunizationModel.findByIdAndUpdate(
       req.params.id,
@@ -59,7 +59,7 @@ router.put("/immunization/:id", async (req, res) => {
 });
 
 // Delete an immunization record by ID
-router.delete("/immunization/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     const deletedImmunization = await ImmunizationModel.findByIdAndDelete(
       req.params.id
