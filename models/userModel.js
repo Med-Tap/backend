@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
   userPhone: { type: String, required: true },
   userEmail: { type: String, required: true, unique: true },
   userHashedPassword: { type: String, required: true },
-  role : {type : String, required: true}
+  role : {type : String, required: true},
+  ssoSessionToken : {type : String, required: false}
 });
 
 const userModel = mongoose.model('User',userSchema);
