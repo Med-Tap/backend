@@ -1,21 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const UserModel = require("../models/userModel")
+const generateHashId = require("../helper/hash")
+const CONSTANTS = require("../constant")
+
 
 // Create a new allergy record
 router.post('/create', async (req, res) => {
   try {
-    const { email, given_name, family_name } = req.body;
+    const {email, given_name, family_name } = req.body
+    // call hash function 
+    const hash = generateHashId(email,given_name)
     let newUser = {
-      email,
+      userEmail: email,
       firstName : given_name,
       lastName : family_name,
       userName : given_name + family_name,
- 
-
+      cardID : hash,
+      role : CONSTANTS.ROLES.PATIENT
     }
-    // const newUser = new UserModel(req.body);
-    const saveNewUser = await newUser.save();
+    
+    const newUserData = new UserModel(newUser);
+    const saveNewUser = await newUserData.save();
+    if(saveNewUser){
+      console.log("User record saved successfully")
+    }
     res.status(201).json(saveNewUser);
   } catch (err) {
     res.status(400).json({ message: err.message });
