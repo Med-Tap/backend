@@ -9,7 +9,6 @@ const personalSchema = new mongoose.Schema({
   userEmail: { type: String, required: true, unique: true },
   userHeight: { type: Number, required: true },
   userWeight: { type: Number, required: true },
-  userHashedPassword: { type: String, required: true },
 });
 
 const PersonalModel = mongoose.model('Personal', personalSchema);
