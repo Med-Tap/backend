@@ -25,10 +25,10 @@ const personalRoutes = require("./routes/personalRoutes.js");
 const emergencyRoutes = require("./routes/emergencyRoutes.js");
 const immunizationRoutes = require("./routes/immunizationRoutes.js");
 const allergyRoutes = require("./routes/allergyRoutes.js");
-app.use("/", personalRoutes);
-app.use("/", emergencyRoutes);
-app.use("/", immunizationRoutes);
-app.use("/", allergyRoutes);
+app.use("/user-info", personalRoutes);
+app.use("/emergency-contact", emergencyRoutes);
+app.use("/immune-records", immunizationRoutes);
+app.use("/allergy-history", allergyRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;

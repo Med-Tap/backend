@@ -3,7 +3,7 @@ const router = express.Router();
 const AllergyModel = require('../models/allergyModel'); // Adjust the path as needed
 
 // Create a new allergy record
-router.post('/allergy', async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
     const newAllergy = new AllergyModel(req.body);
     const savedAllergy = await newAllergy.save();
@@ -14,7 +14,7 @@ router.post('/allergy', async (req, res) => {
 });
 
 // Retrieve all allergy records
-router.get('/allergy', async (req, res) => {
+router.get('/getALl', async (req, res) => {
   try {
     const allergies = await AllergyModel.find({})
       .populate('person', 'userName userEmail'); // Optionally populate person details
@@ -25,7 +25,7 @@ router.get('/allergy', async (req, res) => {
 });
 
 // Retrieve a single allergy record by ID
-router.get('/allergy/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const allergy = await AllergyModel.findById(req.params.id)
       .populate('person', 'userName userEmail'); // Optionally populate person details
@@ -37,7 +37,7 @@ router.get('/allergy/:id', async (req, res) => {
 });
 
 // Update an allergy record by ID
-router.put('/allergy/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
   try {
     const updatedAllergy = await AllergyModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
       .populate('person', 'userName userEmail'); // Optionally populate person details
@@ -49,7 +49,7 @@ router.put('/allergy/:id', async (req, res) => {
 });
 
 // Delete an allergy record by ID
-router.delete('/allergy/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   try {
     const deletedAllergy = await AllergyModel.findByIdAndDelete(req.params.id);
     if (!deletedAllergy) return res.status(404).json({ message: 'Allergy not found' });
