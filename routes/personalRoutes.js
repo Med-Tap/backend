@@ -8,11 +8,25 @@ const EmergencyModel = require("../models/emergencyModel");
 // Create a new personal record
 router.post("/create", async (req, res) => {
   try {
+    // Create a new PersonalModel instance with the request body
     const newPerson = new PersonalModel(req.body);
+    // Generate and set the hashID
     newPerson.hashID = generateHashId(newPerson.userName, newPerson.userEmail);
+    // Validate the model before saving
+    const validationError = newPerson.validateSync();
+    if (validationError) {
+      return res.status(400).json({ message: validationError.message });
+    }
+    // Save the new person to the database
     const savedPerson = await newPerson.save();
+    // Return the saved person data
     res.status(201).json(savedPerson);
   } catch (err) {
+    // Handle duplicate key errors (e.g., duplicate email)
+    if (err.code === 11000) {
+      return res.status(409).json({ message: "A record with this email already exists." });
+    }
+    // Handle other errors
     res.status(400).json({ message: err.message });
   }
 });
