@@ -1,13 +1,16 @@
 const express = require("express");
+const generateHashId = require("../helper/hash");
 const router = express.Router();
-const PersonalModel = require("../models/personalModel"); 
-
+const PersonalModel = require("../models/personalModel");
+const ImmunizationModel = require("../models/immunizationModel");
+const AllergyModel = require("../models/allergyModel");
+const EmergencyModel = require("../models/emergencyModel");
 // Create a new personal record
 router.post("/personal", async (req, res) => {
   try {
     const newPerson = new PersonalModel(req.body);
+    newPerson.hashID = generateHashId(newPerson.userName, newPerson.userEmail);
     const savedPerson = await newPerson.save();
-    console.log(savedPerson)
     res.status(201).json(savedPerson);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -47,6 +50,13 @@ router.delete("/personal/:id", async (req, res) => {
     const deletedPerson = await PersonalModel.findByIdAndDelete(req.params.id);
     if (!deletedPerson)
       return res.status(404).json({ message: "Person not found" });
+
+    await Promise.all([
+      ImmunizationModel.deleteMany({ person: deletedPerson._id }),
+      AllergyModel.deleteMany({ person: deletedPerson._id }),
+      EmergencyModel.deleteMany({ person: deletedPerson._id }),
+    ]);
+
     res.status(200).json({ message: "Person deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });

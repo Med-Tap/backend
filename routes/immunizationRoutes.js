@@ -5,7 +5,9 @@ const ImmunizationModel = require("../models/immunizationModel"); // Adjust the 
 // Create a new immunization record
 router.post("/immunization", async (req, res) => {
   try {
+    console.log(req)
     const newImmunization = new ImmunizationModel(req.body);
+    console.log(newImmunization)
     const savedImmunization = await newImmunization.save();
     res.status(201).json(savedImmunization);
   } catch (err) {

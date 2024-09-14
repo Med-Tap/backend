@@ -1,3 +1,4 @@
+// Define your schema with the correct index
 const mongoose = require("mongoose");
 
 const immunizationSchema = new mongoose.Schema({
@@ -8,12 +9,19 @@ const immunizationSchema = new mongoose.Schema({
   provider: { type: String, required: false },
   lotNumber: { type: String, required: false },
   notes: { type: String, required: false },
-  person: { type: mongoose.Schema.Types.ObjectId, ref: 'Personal', required: true } 
+  person: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Personal",
+    required: true,
+  },
 });
 
-// Ensures (person, vaccineName, dateAdministered) is unique
-immunizationSchema.index({ person: 1, vaccineName: 1, doseNumber: 1 }, { unique: true });
+// Ensures (person, vaccineName, doseNumber) must be unique
+immunizationSchema.index(
+  { person: 1, vaccineName: 1, doseNumber: 1 },
+  { unique: true }
+);
 
-// Create and export the model
 const ImmunizationModel = mongoose.model("Immunization", immunizationSchema);
+
 module.exports = ImmunizationModel;
