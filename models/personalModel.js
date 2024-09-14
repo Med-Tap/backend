@@ -17,6 +17,11 @@ const personalSchema = new mongoose.Schema({
     enum: ["He/Him", "She/Her", "They/Them", "Other"],
     default: "Other",
   },
+  userAddress : {type: String, required: true},
+  userZipCode : {type: String, required: true},
+  userCity : {type: String, required: true},
+  userState : {type: String, required: true},
+  userCountry : {type: String, required: true},
 });
 
 const PersonalModel = mongoose.model("Personal", personalSchema);
