@@ -19,13 +19,14 @@ const emergencySchema = new mongoose.Schema({
   person: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Personal",
-    required: true,
+    required: false,
   },
   userAddress: { type: String, required: true },
   userZipCode: { type: String, required: true },
   userCity : {type: String, required: true},
   userState: { type: String, required: true },
-  userCountry: { type: String, required: true },
+  userCountry: { type: String, required: false },
+  hashId: { type: String, required: true },
 });
 
 //Ensures { person: 1, userName: 1, userEmail: 1, userPhone} must be unique
