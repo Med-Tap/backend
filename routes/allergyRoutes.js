@@ -36,6 +36,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Retrieve a allergy record by User ID
+router.get('/user/:id', async (req, res) => {
+  try {
+    const allergy = await AllergyModel.find({hashId: req.params.id})
+    if (!allergy) return res.status(404).json({ message: 'Allergy not found' });
+    res.status(200).json(allergy);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Update an allergy record by ID
 router.put('/update/:id', async (req, res) => {
   try {
