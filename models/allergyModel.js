@@ -6,8 +6,9 @@ const allergySchema = new mongoose.Schema({
   person: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Personal",
-    required: true,
+    required: false,
   },
+  hashId: { type: String, required: true },
   allergen: { type: String, required: true },
   severity: {
     type: String,
