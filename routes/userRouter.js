@@ -6,32 +6,38 @@ const CONSTANTS = require("../constant");
 const PersonalModel = require("../models/personalModel");
 
 // Create a new allergy record
-router.post("/create", async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
-    const { email, given_name, family_name } = req.body;
-    // call hash function
-    const hash = generateHashId(email, given_name);
+    const {email, given_name, family_name } = req.body
+    // call hash function 
+    let user = await UserModel.findOne({userEmail : email})
+    if(user != null && user.cardID){
+      console.log("user exits")
+      return res.status(201).json({isNewUser:false, hashId: user.cardID});
+    }
+    console.log("In create user, creating a new user because user does not exist")
+    const hash = generateHashId(email,given_name)
     let newUser = {
       userEmail: email,
-      firstName: given_name,
-      lastName: family_name,
-      userName: given_name + family_name,
-      cardID: hash,
-      role: CONSTANTS.ROLES.PATIENT,
-    };
+      firstName : given_name,
+      lastName : family_name,
+      userName : given_name + family_name,
+      cardID : hash,
+      role : CONSTANTS.ROLES.PATIENT
+    }
 
     const newUserData = new UserModel(newUser);
     const saveNewUser = await newUserData.save();
-    if (saveNewUser) {
-      let newPersonalInfo = {
-        userName: given_name + family_name,
-        hashID: hash,
-        userEmail: email,
-      };
-      let newPersonalInfoData = PersonalModel(newPersonalInfo);
-      await newPersonalInfoData.save();
+    if(saveNewUser){
+    let newPersonalInfo = {
+      userName : given_name + family_name,
+      hashID : hash,
+      userEmail : email,
     }
-    res.status(201).json({ message: "User Created and personal Info Updated" });
+    let newPersonalInfoData = PersonalModel(newPersonalInfo)
+    await newPersonalInfoData.save()
+    }
+    res.status(201).json({message:"User Created and personal Info Updated",hashId:hash});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
