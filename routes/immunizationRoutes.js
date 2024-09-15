@@ -5,13 +5,11 @@ const ImmunizationModel = require("../models/immunizationModel"); // Adjust the 
 // Create a new immunization record
 router.post("/create", async (req, res) => {
   try {
-    console.log(req)
     const newImmunization = new ImmunizationModel(req.body);
-    console.log(newImmunization)
     const savedImmunization = await newImmunization.save();
     res.status(201).json(savedImmunization);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -41,6 +39,17 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// Retrieve all immunization records by hashId
+router.get("/get-immunizations/:hashId", async (req, res) => {
+  try {
+    const immunizations = await ImmunizationModel.find({ hashId: req.params.hashId });
+    res.status(200).json(immunizations);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 // Update an immunization record by ID
 router.put("/update/:id", async (req, res) => {

@@ -26,6 +26,21 @@ router.get("/get-all-emergency-contacts", async (req, res) => {
   }
 });
 
+// Retrieve all emergency contacts for a given hashID
+router.get("/get-emergency-contacts/:hashID", async (req, res) => {
+  try {
+    const { hashID } = req.params;
+    const emergencyContacts = await EmergencyModel.find({ hashID })
+    if (emergencyContacts.length === 0) {
+      return res.status(404).json({ message: "No emergency contacts found for this hashID" });
+    }
+    res.status(200).json(emergencyContacts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 // Retrieve a single emergency record by ID
 router.get("/:id", async (req, res) => {
   try {
