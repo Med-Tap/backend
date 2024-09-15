@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const EmergencyModel = require("../models/emergencyModel"); // Adjust the path as needed
-
+const PersonalModel = require("../models/personalModel")
 // Create a new emergency record
 router.post("/create-emergency-contact", async (req, res) => {
   try {
@@ -27,15 +27,15 @@ router.get("/get-all-emergency-contacts", async (req, res) => {
 });
 
 // Retrieve a single emergency record by ID
-router.get("/:id", async (req, res) => {
+router.get("/hash/:hashID", async (req, res) => {
   try {
-    const emergency = await EmergencyModel.findById(req.params.id).populate(
-      "person",
-      "userName userEmail"
-    ); // Optionally populate person details
-    if (!emergency)
-      return res.status(404).json({ message: "Emergency not found" });
-    res.status(200).json(emergency);
+    //Find the person with the hash id
+    const orginalPerson = await PersonalModel.findOne({ hashID: req.params.hash });
+    const person = await EmergencyModel.findOne({ person: person._id });
+    console.log(person)
+    if (!person) return res.status(404).json({ message: "Person not found" });
+    res.status(200).json(person);
+  
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
