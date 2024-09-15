@@ -31,7 +31,7 @@ router.post("/create", async (req, res) => {
       let newPersonalInfoData = PersonalModel(newPersonalInfo);
       await newPersonalInfoData.save();
     }
-    res.status(201).json(user);
+    res.status(201).json({ message: "User Created and personal Info Updated" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -45,7 +45,7 @@ router.get("/get/:email", async (req, res) => {
     });
 
     if (isExistingUser != null || isExistingUser != "null") {
-      res.status(200).json(isExistingUser);
+      res.status(200).json({ isExisting: true });
       return;
     }
     res.status(200).json({ isExisting: false });
