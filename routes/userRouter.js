@@ -3,6 +3,7 @@ const router = express.Router();
 const UserModel = require("../models/userModel")
 const generateHashId = require("../helper/hash")
 const CONSTANTS = require("../constant")
+const PersonalModel = require("../models/personalModel")
 
 
 // Create a new allergy record
@@ -23,20 +24,30 @@ router.post('/create', async (req, res) => {
     const newUserData = new UserModel(newUser);
     const saveNewUser = await newUserData.save();
     if(saveNewUser){
-      console.log("User record saved successfully")
+    let newPersonalInfo = {
+      userName : given_name + family_name,
+      hashID : hash,
+      userEmail : email,
     }
-    res.status(201).json(saveNewUser);
+    let newPersonalInfoData = PersonalModel(newPersonalInfo)
+    await newPersonalInfoData.save()
+    }
+    res.status(201).json({message:"User Created and personal Info Updated"});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
 // Retrieve all allergy records
-router.get('/getALl', async (req, res) => {
+router.get('/get/:email', async (req, res) => {
   try {
-    const allergies = await AllergyModel.find({})
-      .populate('person', 'userName userEmail'); // Optionally populate person details
-    res.status(200).json(allergies);
+    const isExistingUser = await UserModel.findOne({ userEmail: req.params.email })
+
+    if(isExistingUser != null || isExistingUser != 'null'){
+      res.status(200).json({isExisting:true});
+      return
+    }
+    res.status(200).json({isExisting:false});
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
